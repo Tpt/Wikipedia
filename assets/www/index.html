@@ -28,8 +28,10 @@
     
     <!-- app logic -->
     <script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/login.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/bookmarks.js"></script>
-    <script type="text/javascript" charset="utf-8" src="js/app_history.js"></script> 
+    <script type="text/javascript" charset="utf-8" src="js/app_history.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/upload.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/search.js"></script> 
     <script type="text/javascript" charset="utf-8" src="js/geo.js"></script> 
     <script type="text/javascript" charset="utf-8" src="js/settings.js"></script> 
@@ -76,7 +78,58 @@
 		<div onclick="javascript:purgeHistory();">purge</div>
 		-->		
 	</div>
-				
+
+    <div id="upload">
+        <header>
+            <div class="titlebar">
+                <div class="titlebarItem">File upload</div>
+                <div class="titlebarItem closeButton" onclick="javascript:upload.ui.hide();"></div>
+            </div>
+        </header>
+        <div id="upload1" class="page">
+            <div>
+                <div class="picturepreview" /></div>
+                <button type="button" onclick="javascript:upload.addFile.fromLibary();">Select a media file</button>
+                <button type="button" onclick="javascript:upload.addFile.fromCamera();">Take a picture</button>
+            </div>
+        </div>
+        <div id="upload2" class="page">
+            <div>
+                <p>This site requires you to provide copyright information for this work, to make sure everyone can legally reuse it.</p>
+                <form>
+                    <p>I
+                        , <input type="text" name="author" id="upload-author" title="You can use your wiki user name or your real name. In both cases, this will be linked to your wiki user page." value="">
+                        , the copyright holder of this work
+                        , hereby irrevocably grant anyone the right to use this work under the following license:
+                    </p>
+                    <div id="licencechooser">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="upload3" class="page">
+            <div>
+                <p>This site requires you to provide copyright information for this work, to make sure everyone can legally reuse it.</p>
+                <form>
+                    <p><label for="upload-title">Title:</label> <input type="text" required="required" id="upload-title" value="" /></p>
+                    <p><label for="upload-description">Description:</label> <textarea type="text" required="required" id="upload-description"></textarea></p>
+                    <p><label for="upload-date">Date created:</label> <input type="date" id="upload-date" value="" /></p>
+                    <p><label for="upload-cat">Category:</label> <input type="text" id="upload-cat" value="" /></p>
+                    <p><label for="upload-otherInformation">Other information:</label> <textarea type="text" id="upload-otherInformation"></textarea></p>
+                </form>
+            </div>
+        </div>
+        <div id="upload3" class="page">
+            <div>
+                Uploading of the file...
+            </div>
+        </div>
+        <div id="uploadnav">
+            <button type="button" id="uploadback" onclick="javascript:upload.ui.back();">Back</button>
+            <button type="submit" id="uploadnext" onclick="javascript:upload.ui.next();">Next</button>
+        </div>
+    </div>
+
 	<div id="searchresults">
 		<div id="resultList"></div>
 	</div>
@@ -108,6 +161,7 @@
 		<command type="command" id="settingsCmd" label="Settings" icon="image/optionSettings.png" disabled="false" action="getSettings();" />	
 		<command type="command" id="selectTextCmd" label="Select text" disabled="false" action="selectText();" />	
 		<command type="command" id="sharePageCmd" label="Share page" disabled="false" action="sharePage();" />
+		<command type="command" id="uploadCmd" label="Upload" icon="image/optionSettings.png" disabled="false" action="upload.ui.show();" />
 	</menu>	
 		
   </body>

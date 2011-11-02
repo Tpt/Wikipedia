@@ -1,5 +1,8 @@
 function getSettings() {
+	$('#settings').html('');
     getLanguages();
+    getUsername();
+    showSettings();
 }
 
 function showSettings() {
@@ -16,7 +19,7 @@ function hideSettings() {
 
 function getLanguages() {
   
-    //$('#settings').addClass('inProgress');  
+    //$('#settings').addClass('inProgress');
              
     console.log("get languages");          
                            
@@ -58,9 +61,8 @@ function displayLanguages(results) {
     }
     
     markup += "</select></form>";  
-    $('#settings').html(markup);
-    
-    showSettings();
+    $('#settings').append(markup);
+
     //hideProgressLoader();
     //$('#settings').removeClass('inProgress');
 }
@@ -74,4 +76,10 @@ function onLocaleChanged(selectedValue) {
     var settingsDB = new Lawnchair({name:"settingsDB"}, function() {
         this.save({key: "locale", value: currentLocale});
     });
+}
+
+
+function getUsername() {
+    var markup = '<form><label for="settings-username">Username:</label> <input type="text" id="settings-username" value="' + login.getUsername() + '" onchange="javascript:login.setUsername(this.value);"></form>';  
+    $('#settings').append(markup);
 }

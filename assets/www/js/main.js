@@ -146,6 +146,7 @@ function hideOverlayDivs() {
     $('#history').hide();
     $('#searchresults').hide();
     $('#settings').hide();
+    $('#upload').hide();
 }
 
 function showContent() {
