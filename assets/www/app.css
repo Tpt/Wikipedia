@@ -340,24 +340,39 @@ iframe#main {
     position:relative;
 }
 
-#uploadnav {
+#uploadNav {
     display: -webkit-box;
     -webkit-box-orient: horizontal;
     background: -webkit-gradient(linear, left top, left bottom, from(#5F5F5F), to(#4F4F4F));
     padding: 5px;
     height: 36px;
     width: 100%;
-    position : fixed;
+    position: fixed;
     bottom : 0;
 }
 
-#uploadnav button {
+#uploadNav > div:first-child {
+    -webkit-box-flex: 1;
+}
+
+#uploadNav button {
     color:white;
 }
 
-#uploadnext {
+#uploadNext {
+    margin-top: 0px;
     position: absolute;
-    right: 2px;
+    right: 3px;
+    bottom: 1px;
+}
+
+#upload1 {
+    text-align: center;
+}
+
+#uploadPicture {
+    text-align: center;
+    margin: 3px;
 }
 
 #progress {

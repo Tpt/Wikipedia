@@ -24,6 +24,19 @@ var upload = {
         this.file.otherInformation = '';
     },
 
+    showFile: function(file) {
+        //init of the file reader
+        progress.show();
+        var reader = new FileReader();
+        reader.onloadend = function(evt) {
+            $('#uploadPicture').html('<img  width="200" height="200" src="' + evt.target.result + '" />');
+            progress.hide();
+        };
+        reader.onerror = upload.addFile.error;
+
+          reader.readAsDataURL(file);
+    },
+
     addFile: {
         fromLibary: function() {
             navigator.camera.getPicture(this.onSuccess, this.onFail, {sourceType: Camera.PictureSourceType.PHOTOLIBRARY, mediaType: Camera.MediaType.PICTURE, destinationType: Camera.DestinationType.FILE_URI, allowEdit:true});
@@ -33,23 +46,13 @@ var upload = {
         },
         onSuccess: function(imagePath) {
             window.resolveLocalFileSystemURI(imagePath, function(entry) {
-                entry.file(function(metadata) {
-                    if(upload.params.formats.indexOf(metadata.type) == -1) {
+                entry.file(function(file) {
+                    if(upload.params.formats.indexOf(file.type) == -1) {
                         alert('You can\'t upload this file !');
                     } else {
-                        upload.setFile(metadata);
-                        $('#uploadnext').show();
-                        //TODO : preview of the file
-                        /* var reader = new FileReader();
-                        reader.onloadend = function(evt) {
-                            //error
-                            console.log(evt.target.result);
-                            //$('.uploadpicture').html('<img scr="' + evt.target.result + '" />');
-                            //alert('<img scr="' + evt.target.result + '" />');
-
-                        };
-                        reader.onerror = upload.addFile.error;
-                        reader.readAsDataURL(entry); */
+                        upload.setFile(file);
+                        $('#uploadNext').show();
+                        upload.showFile(file);
                     }
                 }, upload.addFile.error);
             }, upload.addFile.error);
@@ -58,8 +61,9 @@ var upload = {
             console.log(evt.target.error.code);
         },
         onFail: function(message) {
-            if(message != 'Selection cancelled.')
+            if(message != 'Selection cancelled.' && message != 'Camera cancelled.') {
                 alert('Failed because: ' + message);
+            }
         }
     },
 
@@ -155,8 +159,12 @@ var upload = {
             upload.ui.hide();
         },
         onFail: function(error) {
-            alert('The upload fail !');
-            alert("An error has occurred: Code = " = error.code);
+            if(error.code == FileTransferError.CONNECTION_ERR) {
+                alert('The upload fail because of a connecction error !');
+            } else {
+                alert('The upload fail !');
+                alert("An error has occurred: Code = " + error.code);
+            }
             progress.hide();
             upload.ui.hide();
         },
@@ -206,10 +214,14 @@ var upload = {
         },
 
         back: function() {
-            $('#upload' + this.currentStep).hide();
-            this.currentStep--;
-            this.step();
-            $('#upload' + this.currentStep).show();
+            if(this.currentStep == 1) {
+                this.hide();
+            } else {
+                $('#upload' + this.currentStep).hide();
+                this.currentStep--;
+                this.step();
+                $('#upload' + this.currentStep).show();
+            }
         },
         next: function() {
             if(this.check()) {
@@ -223,11 +235,10 @@ var upload = {
         step: function() {
             switch(this.currentStep) {
                 case 1:
-                    $('#uploadback').hide();
-                    $('#uploadnext').hide();
+                    $('#uploadBack').show();
+                    $('#uploadNext').hide();
                     upload.file = {};
                     if(!login.logged) {
-                        alert('login to common website');
                         $('#upload').hide();
                         login.form.show(function(logged) {
                             if(logged) {

@@ -1,7 +1,7 @@
 var login = {
     username: '',
     logged: false,
-    api: 'http://commons.wikimedia.org/w/api.php',
+    api: 'http://commons.wikimedia.org/w/api.php', //@todo check if we can replace it by the local wikipedia api without bugs in uploader
 
     getUsername: function() {
         if(this.username == '') {
@@ -17,9 +17,6 @@ var login = {
     },
 
     setUsername: function(username) {
-        if(this.logged) {
-            //this.logout();
-        }
         this.username = username;
         var settingsDB = new Lawnchair({name:"settingsDB"}, function() {
             this.save({key: "username", value: login.username});
@@ -33,8 +30,7 @@ var login = {
             if(typeof callback == 'function') {
                 this.callback = callback;
             }
-            $('#loginUsername').val(login.getUsername());
-            $('#loginPassword').val('');
+            this.reset();
 
             hideOverlayDivs();
             $('#login').toggle();
@@ -55,7 +51,7 @@ var login = {
             }
         },
         reset: function() {
-            $('#loginUsername').val('');
+            $('#loginUsername').val(login.getUsername());
             $('#loginPassword').val('');
         },
 
@@ -77,16 +73,16 @@ var login = {
             $.ajax({
                 type: 'Post',
                 dataType: 'json',
-                url: login.api + '?format=json&action=login&lgname=' + login.username + '&lgpassword=' + password,
+                url: login.api + '?format=json&action=login&lgname=' + username + '&lgpassword=' + password,
                 success: function(data) {
-                    if(data.login.result == "NeedToken") {
+                    if(data.login && data.login.result == "NeedToken") {
                         //second step : real login
                         $.ajax({
                             type: 'Post',
                             dataType: 'json',
-                            url: login.api + '?format=json&action=login&lgname=' + login.username + '&lgpassword=' + password + '&lgtoken=' + data.login.token,
+                            url: login.api + '?format=json&action=login&lgname=' + username + '&lgpassword=' + password + '&lgtoken=' + data.login.token,
                             success: function(data) {
-                                if(data.login.result == "Success") {
+                                if(data.login && data.login.result == "Success") {
                                     progress.hide();
                                     alert('The login succeded as ' + data.login.lgusername + ' !');
                                     login.logged = true;
