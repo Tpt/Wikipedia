@@ -323,6 +323,12 @@ iframe#main {
 }
 */
 
+#login {
+    display:none;
+    position:relative;
+    top:52px;
+}
+
 #upload {
     display:none;
     position:relative;
@@ -352,4 +358,16 @@ iframe#main {
 #uploadnext {
     position: absolute;
     right: 2px;
+}
+
+#progress {
+    position: fixed;
+    top: 40%;
+    right: 40%;
+    display: none;
+    background-color: black;
+    color:white;
+    text-align: center;
+    border: 2px outset white;
+    border-radius: 3px;
 }

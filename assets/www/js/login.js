@@ -1,9 +1,7 @@
-/**
- * Namespace in oder to manage the login on wikimedia web sites
- */
 var login = {
     username: '',
     logged: false,
+    api: 'http://commons.wikimedia.org/w/api.php',
 
     getUsername: function() {
         if(this.username == '') {
@@ -28,48 +26,95 @@ var login = {
         });
     },
 
-    login: function(api) {
-        if(this.getUsername() == '') {
-            this.setUsername(prompt('Username:', this.username));
-        }
-        var password = prompt('Password:');
+    form: {
+        callback: null,
 
-        //First step : get a token
-        $.ajax({
-            type: 'Post',
-            dataType: 'json',
-            url: api + '?format=json&action=login&lgname=' + login.username + '&lgpassword=' + password,
-            success: function(data) {
-                if(data.login.result == "NeedToken") {
-                    //second step : real login
-                    $.ajax({
-                        type: 'Post',
-                        dataType: 'json',
-                        url: api + '?format=json&action=login&lgname=' + login.username + '&lgpassword=' + password + '&lgtoken=' + data.login.token,
-                        success: function(data) {
-                            if(data.login.result == "Success") {
-                                alert('The login succeded as ' + data.login.lgusername + ' !');
-                                login.logged = true;
-                            } else {
-                                alert('The login fail !');
-                                console.log('Login issue: ' + data.login.result);
-                            }
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            alert('Error !');
-                            console.log("Login issue: " + textStatus);
-                        }
-                    });
-                } else {
-                    alert('The login fail !');
-                    console.log('Login issue: ' + data.login.result);
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                alert('Error !');
-                console.log("Token error = " + textStatus);
+        show: function(callback) {
+            if(typeof callback == 'function') {
+                this.callback = callback;
             }
-        });
+            $('#loginUsername').val(login.getUsername());
+            $('#loginPassword').val('');
+
+            hideOverlayDivs();
+            $('#login').toggle();
+            hideContent();
+
+            setActiveState();
+        },
+        cancel: function() {
+            this.reset();
+            hideOverlays();
+        },
+        hide: function() {
+            if(typeof this.callback == 'function') {
+                this.reset();
+                this.callback(login.logged);
+            } else {
+                this.cancel();
+            }
+        },
+        reset: function() {
+            $('#loginUsername').val('');
+            $('#loginPassword').val('');
+        },
+
+        submit: function(api) {
+            var username = $('#loginUsername').val();
+            var password = $('#loginPassword').val();
+            if(username == '' || password == '') {
+                alert('You must set your username and password');
+                return false;
+            }
+            if(!hasNetworkConnection()) {
+                noConnectionMsg();
+                this.hide();
+                return false;
+            };
+
+            progress.show('Connection...');
+            //First step : get a token
+            $.ajax({
+                type: 'Post',
+                dataType: 'json',
+                url: login.api + '?format=json&action=login&lgname=' + login.username + '&lgpassword=' + password,
+                success: function(data) {
+                    if(data.login.result == "NeedToken") {
+                        //second step : real login
+                        $.ajax({
+                            type: 'Post',
+                            dataType: 'json',
+                            url: login.api + '?format=json&action=login&lgname=' + login.username + '&lgpassword=' + password + '&lgtoken=' + data.login.token,
+                            success: function(data) {
+                                if(data.login.result == "Success") {
+                                    progress.hide();
+                                    alert('The login succeded as ' + data.login.lgusername + ' !');
+                                    login.logged = true;
+                                    login.setUsername(username); //save the login for next login.
+                                    login.form.hide();
+                                } else {
+                                    login.form.onError(data.login.result);
+                                }
+                            },
+                            error: function(jqXHR, textStatus, errorThrown) {
+                                login.form.onError(textStatus);
+                            }
+                        });
+                    } else {
+                        login.form.onError(data.login.result);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    login.form.onError(textStatus);
+                }
+            });
+            return true;
+        },
+        onError: function(message) {
+            alert('The login fail !');
+            console.log('Login issue: ' + message);
+            progress.hide();
+        },
     },
 
     logout: function(api) {

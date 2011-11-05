@@ -122,6 +122,7 @@ function hideOverlayDivs() {
     $('#searchresults').hide();
     $('#settings').hide();
     $('#upload').hide();
+    $('#login').hide();
     $('#about').hide();
 }
 
@@ -242,4 +243,18 @@ function aboutPage() {
     var aboutUrl = "http://" + currentLocale.languageCode + ".wikipedia.org/w/index.php?title=Wikipedia:About&useformat=mobile";
     $('#main').attr('src', aboutUrl); 
     currentHistoryIndex += 1;
+}
+
+//@todo finish this widget (css)
+var progress = {
+	show: function(text) {
+		if(typeof text == 'undefined') {
+			var text = 'Loading. Please wait...';
+		}
+		$('#progressText').text(text);
+		$('#progress').show();
+	},
+	hide: function() {
+		$('#progress').hide();
+	}
 }

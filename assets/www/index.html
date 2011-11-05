@@ -85,6 +85,20 @@
 		-->		
 	</div>
 
+    <div id="login">
+        <header>
+            <div class="titlebar">
+                <div class="titlebarItem">Login</div>
+                <div class="titlebarItem closeButton" onclick="javascript:login.form.cancel();"></div>
+            </div>
+        </header>
+        <div id="loginForm">
+            <p><label for="loginUsername">Username:</label> <input type="text" required="required" id="loginUsername" value="" /></p>
+            <p><label for="loginPassword">Password:</label> <input type="password" required="required" id="loginPassword" value="" /></p>
+            <p><button type="button" onclick="javascript:login.form.submit();"">Log in</button> <button type="button" onclick="javascript:login.form.cancel();">Cancel</button></p>
+        </div>
+    </div>
+
     <div id="upload">
         <header>
             <div class="titlebar">
@@ -116,18 +130,11 @@
         <div id="upload3" class="page">
             <div>
                 <p>This site requires you to provide copyright information for this work, to make sure everyone can legally reuse it.</p>
-                <form>
-                    <p><label for="upload-title">Title:</label> <input type="text" required="required" id="upload-title" value="" /></p>
-                    <p><label for="upload-description">Description:</label> <textarea type="text" required="required" id="upload-description"></textarea></p>
-                    <p><label for="upload-date">Date created:</label> <input type="date" id="upload-date" value="" /></p>
-                    <p><label for="upload-cat">Category:</label> <input type="text" id="upload-cat" value="" /></p>
-                    <p><label for="upload-otherInformation">Other information:</label> <textarea type="text" id="upload-otherInformation"></textarea></p>
-                </form>
-            </div>
-        </div>
-        <div id="upload3" class="page">
-            <div>
-                Uploading of the file...
+                <p><label for="upload-title">Title:</label> <input type="text" required="required" id="upload-title" value="" /></p>
+                <p><label for="upload-description">Description:</label> <textarea type="text" required="required" id="upload-description"></textarea></p>
+                <p><label for="upload-date">Date created:</label> <input type="date" id="upload-date" value="" /></p>
+                <p><label for="upload-cat">Category:</label> <input type="text" id="upload-cat" value="" /></p>
+                <p><label for="upload-otherInformation">Other information:</label> <textarea type="text" id="upload-otherInformation"></textarea></p>
             </div>
         </div>
         <div id="uploadnav">
@@ -156,6 +163,10 @@
     <iframe id="main" frameborder="0" onload="javascript:iframeOnLoaded(this);">
     </iframe>
   </div>  
+
+  <div id="progress">
+    <p id="progressText"></p>
+  </div>
 
 	<menu id="appMenu" type="context">
 		<command type="command" id="addBookmarkCmd" label="Add Bookmark" icon="image/optionAddBookmark.png" disabled="false" action="isBookmarksMaxLimit();" />

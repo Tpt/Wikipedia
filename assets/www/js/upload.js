@@ -73,11 +73,13 @@ var upload = {
                 if(data.error) {
                     alert('The upload fail !');
                     console.log(data.error.info);
+                    progress.hide();
                 } else {
                     upload.token = data.query.pages[-1].edittoken;
                     if(upload.token == '') {
                         alert('The file already exist');
                         console.log(data);
+                        progress.hide();
                         
                         //TODO : If the file exist make a warning
                     } else {
@@ -88,6 +90,7 @@ var upload = {
             error: function(jqXHR, textStatus, errorThrown) {
                 alert('Error !');
                 console.log("Token error = " + textStatus);
+                progress.hide();
             }
         });
     },
@@ -127,7 +130,7 @@ var upload = {
                 comment: 'upload from the Wkipedia mobile app',
                 text: this.getPageContent(),
                 token: upload.token
-            }
+            };
             options.params = params;
             console.log('Upload of ' + upload.file.name + ' started');
             var ft = new FileTransfer();
@@ -138,16 +141,23 @@ var upload = {
             if(data.upload && data.upload.result == 'Success') {
                 alert('The upload of the file ' + data.upload.filename + ' is done !');
             } else {
-                alert('The upload fail !');
+                if(data.error) {
+                    alert('The upload fail ! Error: ' + data.error.info);
+                } else {
+                    alert('The upload fail !');
+                }
+
                 console.log("Code = " + r.responseCode);
                 console.log("Response = " + r.response);
                 console.log("Sent = " + r.bytesSent);
             }
+            progress.hide();
             upload.ui.hide();
         },
         onFail: function(error) {
             alert('The upload fail !');
             alert("An error has occurred: Code = " = error.code);
+            progress.hide();
             upload.ui.hide();
         },
 
@@ -180,20 +190,19 @@ var upload = {
 
         show: function() {
             hideOverlayDivs();
-            this.step();
+            hideContent();
             $('#upload').toggle();
             $('#upload1').show();
             $('#upload2').hide();
             $('#upload3').hide();
-            hideContent();
+            this.step();
             
             setActiveState();
         },
         hide: function() {
             this.currentStep = 1;
             upload.file = {};
-            hideOverlayDivs();
-            showContent();
+            hideOverlays();
         },
 
         back: function() {
@@ -207,7 +216,6 @@ var upload = {
                 $('#upload' + this.currentStep).hide();
                 this.currentStep++;
                 this.step();
-                $('#upload' + this.currentStep).show();
             }
         },
 
@@ -220,7 +228,14 @@ var upload = {
                     upload.file = {};
                     if(!login.logged) {
                         alert('login to common website');
-                        login.login(upload.params.commonsApi);
+                        $('#upload').hide();
+                        login.form.show(function(logged) {
+                            if(logged) {
+                                upload.ui.show();
+                            }
+                        });
+                    } else {
+                        $('#upload1').show();
                     }
                     break;
                 case 2:
@@ -235,19 +250,27 @@ var upload = {
                         html += '/><label for="license|' + licence + '">' + upload.params.licences[licence] + '</label><br />';
                         chooser.append(html);
                     }
+                    $('#upload2').show();
                     break;
                 case 3:
                     $('#upload-title').val(upload.file.title);
                     $('#upload-date').val(upload.file.date);
+                    $('#upload3').show();
                     break;
                 case 4:
+                    if(!hasNetworkConnection()) {
+                        noConnectionMsg();
+                        upload.ui.hide();
+                    };
+                    progress.show('Uploading...');
+                    upload.getFormData();
                     upload.getToken(function() {
                         console.log("Token: " + upload.token);
-                        upload.getFormData();
                         if(login.logged) {
                             upload.uploadFile.upload();
                         } else {
                             alert('You must be logged to upload a file !');
+                            progress.hide();
                         }
                     });
                     break;
