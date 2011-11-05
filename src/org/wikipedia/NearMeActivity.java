@@ -1,20 +1,20 @@
 package org.wikipedia;
 
-//import android.app.SearchManager;
-//import android.content.Intent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import android.app.ProgressDialog;
-import android.app.SearchManager;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -72,6 +72,34 @@ public class NearMeActivity extends MapActivity {
 		
 		mapOverlays = mapView.getOverlays();
 		
+		SharedPreferences preferences = getSharedPreferences("nearby", MODE_PRIVATE);
+		
+		if(preferences.getBoolean("doSearchNearBy", true)) {
+			searchNearBy();
+		}
+		
+		Button redo = (Button)findViewById(R.id.redo);
+		final MapView mapv = mapView;
+		redo.setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				GeoPoint p = mapv.getMapCenter();
+				Log.d("NearMeActivity", "Map Center Latitude "+( p.getLatitudeE6() /Math.pow(10, 6)) +" Longitude "+ (p.getLongitudeE6() / Math.pow(10, 6)));
+				searchNearLocation(p);
+			}
+		});
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		SharedPreferences preferences = getSharedPreferences("nearby", MODE_PRIVATE);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putBoolean("doSearchNearBy", false);
+		editor.commit();
+	}
+	
+	private  void showDialog() {
 		progressDialog = new ProgressDialog(this);
 		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		progressDialog.setTitle("Loading");
@@ -79,7 +107,10 @@ public class NearMeActivity extends MapActivity {
         progressDialog.setIndeterminate(true);
 		progressDialog.setMessage("Searching nearby locations...");
 		progressDialog.show();
-		
+	}
+	
+	private void searchNearBy() {
+		showDialog();
 		final double[] gps = getGPS();
 		Log.d("NearMeActivity", "Latitude: "+gps[0]+" longitude: "+gps[1]);
 		
@@ -89,16 +120,14 @@ public class NearMeActivity extends MapActivity {
 		mapView.getController().setCenter(location);
 		
 		new UpdateGeonames().execute(gps[0], gps[1]);
-		
-		Intent intent = getIntent();
-		if(Intent.ACTION_SEARCH.equals(intent.getAction())) {
-			String query = intent.getStringExtra(SearchManager.QUERY);
-			doMySearch(query);
-		}
 	}
 	
-	private void doMySearch(String query) {
-		
+	private void searchNearLocation(GeoPoint p) {
+		showDialog();
+		mapView.getController().setCenter(p);
+		double latitude = p.getLatitudeE6() / Math.pow(10, 6);
+		double longitude = p.getLongitudeE6() / Math.pow(10, 6);
+		new UpdateGeonames().execute(latitude, longitude);
 	}
 	
 	protected boolean isRouteDisplayed() {
@@ -112,7 +141,7 @@ public class NearMeActivity extends MapActivity {
 		GeoPoint point = new GeoPoint((int)(geoname.getLatitude() * Math.pow(10, 6)), 
 									  (int)(geoname.getLongitude() * Math.pow(10, 6))); 
 		OverlayItem overlayitem = new OverlayItem(point, geoname.getTitle(), geoname.getSummary());
-//		
+		
 		itemizedoverlay.addOverlay(overlayitem);
 		return itemizedoverlay;
 	}

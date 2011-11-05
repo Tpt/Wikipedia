@@ -1,33 +1,37 @@
 function getSettings() {
-	$('#settings').html('');
+   $('#settingsList').html('');
     getLanguages();
-    getUsername();
-    showSettings();
+    PhoneGap.exec(
+        function(result){
+            markup = '<div class="item"><label>Application Version:</label><p>' + result.version + '</p></div>' +
+                '<div class="item"><label>Android Version:</label><p>' + device.version + '</p></div>' +
+                '<div class="item"><label>Phonegap Version:</label><p>' + device.phonegap + '</p></div>' +
+'<div class="item"><label>Checkbox Example</label><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec purus augue.</p><input type="checkbox"/></div>';
+$('#settingsList').append(markup);
+        },
+        function(error){ $('#settingsList').append(error); },
+        'ApplicationVersion', 'getVersion', []
+    );
 }
 
 function showSettings() {
     hideOverlayDivs();
     hideContent();
     $('#settings').show();
-    setActiveState();                                   
-}
-
-function hideSettings() {
-    hideOverlayDivs();
-    showContent();
+    setActiveState();
 }
 
 function getLanguages() {
   
     //$('#settings').addClass('inProgress');
              
-    console.log("get languages");          
+    console.log("get languages");
                            
     var requestUrl = "http://en.wikipedia.org/w/api.php?action=sitematrix&format=json";
 
     $.ajax({
-        type:'Get', 
-        url:requestUrl, 
+        type:'Get',
+        url:requestUrl,
         success:function(data) {
             displayLanguages(data);
         }
@@ -39,11 +43,11 @@ function displayLanguages(results) {
 
     var numberOfSites = -1;
     var markup = '';
-    markup += "<form><select id='localeSelector' onchange='javascript:onLocaleChanged(this.options[this.selectedIndex].value);'>";
+    markup += "<form class='item'><label>Language:</label><p>Set the language you would like to read Wikipedia in</p><select id='localeSelector' onchange='javascript:onLocaleChanged(this.options[this.selectedIndex].value);'>";
     
     if (results != null) {
         results = JSON.parse(results);
-        if (results.sitematrix) {       
+        if (results.sitematrix) {
             numberOfSites = parseInt(results.sitematrix.count);
             for (var i=0;i<numberOfSites;i++) {
                 var locale = results.sitematrix[i.toString()];
@@ -51,18 +55,24 @@ function displayLanguages(results) {
                     var len = parseInt(JSON.stringify(locale.site.length));
                     for (var j=0;j<len;j++) {
                         if (locale.site[j].code == "wiki") {
-                            markup += "<option value='" + locale.code + "'>"  + locale.name + "</option>";
+                            if (locale.code == currentLocale.languageCode) {
+                                markup += "<option value='" + locale.code + "' selected='selected'>" + locale.name + "</option>";
+                            } else {
+                                markup += "<option value='" + locale.code + "'>" + locale.name + "</option>";
+                            }
                             break;
                         }
-                    } 
-                }             
+                    }
+                }
             }
-        }         
+        }
     }
     
-    markup += "</select></form>";  
-    $('#settings').append(markup);
+    markup += "</select></form>";
 
+    $('#settingsList').append(markup);
+
+    showSettings();
     //hideProgressLoader();
     //$('#settings').removeClass('inProgress');
 }
@@ -76,10 +86,4 @@ function onLocaleChanged(selectedValue) {
     var settingsDB = new Lawnchair({name:"settingsDB"}, function() {
         this.save({key: "locale", value: currentLocale});
     });
-}
-
-
-function getUsername() {
-    var markup = '<form><label for="settings-username">Username:</label> <input type="text" id="settings-username" value="' + login.getUsername() + '" onchange="javascript:login.setUsername(this.value);"></form>';  
-    $('#settings').append(markup);
 }

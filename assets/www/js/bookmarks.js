@@ -73,11 +73,6 @@ function showBookmarks() {
 	setActiveState();	
 }
 
-function hideBookmarks() {
-	hideOverlayDivs();
-	showContent();
-}
-
 function listBookmarks(record, index) {
 	var markup = "<div class='listItemContainer'>";
 	markup += "<a class='listItem' onclick=\"javascript:onBookmarkItemClicked(\'" + record.value + "\');\">";
@@ -93,7 +88,8 @@ function listBookmarks(record, index) {
 
 function onBookmarkItemClicked(url, index) {
 	if (hasNetworkConnection()) {
-        $('#searchParam').val('');
+        $('#searchParam').val('');        
+        showSpinner();  
         $('#search').addClass('inProgress');
 		$('#main').attr('src', url);
 		hideOverlayDivs();
