@@ -110,8 +110,8 @@
         <div id="upload1" class="page">
             <div>
                 <div id="uploadPicture" /></div>
-                <button type="button" onclick="javascript:upload.addFile.fromLibary();">Select a media file</button>
-                <button type="button" onclick="javascript:upload.addFile.fromCamera();">Take a picture</button>
+                <button type="button" onclick="javascript:upload.addFile.fromCamera();">Take a photo</button>
+                <button type="button" onclick="javascript:upload.addFile.fromLibary();">Choose from library</button>
             </div>
         </div>
         <div id="upload2" class="page">
@@ -134,6 +134,11 @@
                 <p><label for="upload-title">Title:</label> <input type="text" required="required" id="upload-title" value="" /></p>
                 <p><label for="upload-description">Description:</label> <textarea type="text" required="required" id="upload-description"></textarea></p>
                 <p><label for="upload-date">Date created:</label> <input type="date" id="upload-date" value="" /></p>
+                <p><label>Location:</label> <button type="button" onclick="javascript:upload.ui.location();">Here</button><br />
+                    <label for="upload-latitude">Latitude:</label> <input type="number" id="upload-latitude" value="" /><br />
+                    <label for="upload-longitude">Longitude:</label> <input type="number" id="upload-longitude" value="" /><br />
+                    <label for="upload-altitude">Altitude:</label> <input type="number" id="upload-altitude" value="" /><br />
+                </p>
                 <p><label for="upload-cat">Category:</label> <input type="text" id="upload-cat" value="" /></p>
                 <p><label for="upload-otherInformation">Other information:</label> <textarea type="text" id="upload-otherInformation"></textarea></p>
             </div>

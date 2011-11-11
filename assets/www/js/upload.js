@@ -19,6 +19,9 @@ var upload = {
         //params for the description page
         this.file.licence = upload.params.defaultLicence;
         this.file.author = login.getUsername();
+        this.file.latitude = '';
+        this.file.longitude = '';
+        this.file.altitude = '';
         this.file.descriptions = {};
         this.file.cats = [];
         this.file.otherInformation = '';
@@ -50,6 +53,7 @@ var upload = {
                     if(upload.params.formats.indexOf(file.type) == -1) {
                         alert('You can\'t upload this file !');
                     } else {
+                        upload.ui.resetForm();
                         upload.setFile(file);
                         $('#uploadNext').show();
                         upload.showFile(file);
@@ -78,14 +82,14 @@ var upload = {
                     alert('The upload fail !');
                     console.log(data.error.info);
                     progress.hide();
+                } else if(!data.query.pages[-1]) {
+                    alert('The file already exist');
+                    progress.hide();
                 } else {
                     upload.token = data.query.pages[-1].edittoken;
                     if(upload.token == '') {
                         alert('The file already exist');
-                        console.log(data);
                         progress.hide();
-                        
-                        //TODO : If the file exist make a warning
                     } else {
                         callback();
                     }
@@ -111,7 +115,11 @@ var upload = {
         if(description.val()) {
             this.file.descriptions = {'en': description.val()};
         }
-        
+
+        this.file.latitude = $('#upload-latitude').val();
+        this.file.longitude = $('#upload-longitude').val();
+        this.file.altitude = $('#upload-altitude').val();
+
         var cat = $('#upload-cat');
         if(cat.val()) {
             this.file.cats = [$('#upload-cat').val()];
@@ -144,6 +152,7 @@ var upload = {
             var data = JSON.parse(r.response);
             if(data.upload && data.upload.result == 'Success') {
                 lightweightNotification('The upload of the file ' + data.upload.filename + ' is done !');
+                upload.ui.resetForm();
             } else {
                 if(data.error) {
                     alert('The upload fail ! Error: ' + data.error.info);
@@ -160,7 +169,7 @@ var upload = {
         },
         onFail: function(error) {
             if(error.code == FileTransferError.CONNECTION_ERR) {
-                alert('The upload fail because of a connecction error !');
+                alert('The upload fail because of a connection error !');
             } else {
                 alert('The upload fail !');
                 console.log("An error has occurred: Code = " + error.code);
@@ -169,9 +178,10 @@ var upload = {
             upload.ui.hide();
         },
 
-        //create the doc page
+
         getPageContent: function() {
             var content = '=={{int:filedesc}}==\n';
+                content += '{{Location dec|'+ upload.file.latitude + '|' + upload.file.longitude + '|' + upload.file.altitude + '}}\n';
                 content += '{{Information\n';
                 content += '|Description=\n';
                 for(lang in upload.file.descriptions) {
@@ -212,6 +222,10 @@ var upload = {
             upload.file = {};
             hideOverlays();
         },
+        resetForm: function() {
+            $('#upload input').val('');
+            $('#upload textarea').val('');
+        },
 
         back: function() {
             if(this.currentStep == 1) {
@@ -229,6 +243,19 @@ var upload = {
                 this.currentStep++;
                 this.step();
             }
+        },
+
+        location: function() {
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    $('#upload-latitude').val(position.coords.latitude);
+                    $('#upload-longitude').val(position.coords.longitude);
+                    $('#upload-altitude').val(position.coords.altitude);
+                },
+                function onError(error) {
+                    lightweightNotification('The loacation fail !');
+                    console.log("An error has occurred: Code = " + error.code + ", message :" + error.message);
+              });
         },
 
         //do actions before lauching a step
