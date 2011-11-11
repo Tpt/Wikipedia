@@ -59,7 +59,7 @@ var login = {
             var username = $('#loginUsername').val();
             var password = $('#loginPassword').val();
             if(username == '' || password == '') {
-                alert('You must set your username and password');
+                lightweightNotification('You must set your username and password');
                 return false;
             }
             if(!hasNetworkConnection()) {
@@ -84,7 +84,7 @@ var login = {
                             success: function(data) {
                                 if(data.login && data.login.result == "Success") {
                                     progress.hide();
-                                    alert('The login succeded as ' + data.login.lgusername + ' !');
+                                    lightweightNotification('The login succeded as ' + data.login.lgusername + ' !');
                                     login.logged = true;
                                     login.setUsername(username); //save the login for next login.
                                     login.form.hide();

@@ -143,7 +143,7 @@ var upload = {
         onSuccess: function(r) {
             var data = JSON.parse(r.response);
             if(data.upload && data.upload.result == 'Success') {
-                alert('The upload of the file ' + data.upload.filename + ' is done !');
+                lightweightNotification('The upload of the file ' + data.upload.filename + ' is done !');
             } else {
                 if(data.error) {
                     alert('The upload fail ! Error: ' + data.error.info);
@@ -163,7 +163,7 @@ var upload = {
                 alert('The upload fail because of a connecction error !');
             } else {
                 alert('The upload fail !');
-                alert("An error has occurred: Code = " + error.code);
+                console.log("An error has occurred: Code = " + error.code);
             }
             progress.hide();
             upload.ui.hide();
