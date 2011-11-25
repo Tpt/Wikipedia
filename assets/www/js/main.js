@@ -138,7 +138,7 @@ function hideContent() {
 
 function checkLength() {
     var searchTerm = $('#searchParam').val();
-  
+
     if (searchTerm.length > 0) {
         $('#clearSearch').show();
         console.log(searchTerm);
