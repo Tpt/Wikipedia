@@ -1,5 +1,6 @@
 package org.wikipedia;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 //import android.util.Log;
@@ -31,8 +32,15 @@ public class WikipediaActivity extends DroidGap {
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.remove("doSearchNearBy");
 		editor.commit();
-		
-        super.loadUrl("file:///android_asset/www/index.html");
+
+		//open directly wikipedia url in the app
+		Intent intent = this.getIntent();
+		String url = "";
+		if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+			url = intent.getData().toString();
+		}
+
+		super.loadUrl("file:///android_asset/www/index.html?href=" + url);
 //        this.webViewClient = new WikipediaWebViewClient(this);
         this.appView.setWebViewClient(this.webViewClient);
     }

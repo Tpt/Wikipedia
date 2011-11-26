@@ -39,6 +39,13 @@ function removeCountryCode(localeCode) {
     return localeCode;
 }
 
+function getUrlParam() {
+    var url = document.location.search;
+    var reg = /^\?href=(.*)$/;
+    matches = url.match(reg);
+    return matches[1] != undefined ? matches[1] : '';
+}
+
 function hideMobileLinks() {
     var frameDoc = $("#main")[0].contentDocument;
     $('#header', frameDoc).css('display', 'none');
@@ -97,18 +104,22 @@ function loadContent() {
 function loadWikiContent() {
     showSpinner();
     $('#search').addClass('inProgress');
-   
-    // restore browsing to last visited page
-    var historyDB = new Lawnchair({name:"historyDB"}, function() {
-      this.all(function(history){
-        if(history.length==0 || window.history.length > 1) {
-            app.setRootPage(currentLocale.url);
-        } else {
-            app.setRootPage(history[history.length-1].value);
-        }
-      });
-    });
 
+    // if there is an url from the system like android indent, open this url, else restore browsing to last visited page
+    var url = getUrlParam();
+    if(url) {
+        app.setRootPage(url);
+    } else {
+        var historyDB = new Lawnchair({name:"historyDB"}, function() {
+            this.all(function(history){
+                if(history.length==0 || window.history.length > 1) {
+                    app.setRootPage(currentLocale.url);
+                } else {
+                    app.setRootPage(history[history.length-1].value);
+                }
+            });
+        });
+    }
 }
 
 function hideOverlays() {
