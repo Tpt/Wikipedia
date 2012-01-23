@@ -68,6 +68,13 @@ window.chrome = function() {
 		alert(text);
 	}
 
+	function getUrlParam() {
+		var url = document.location.search;
+		var reg = /^\?href=(.*)$/;
+		matches = url.match(reg);
+		return matches[1] != undefined ? matches[1] : '';
+	}
+
 	function initialize() {
 		$.each(platform_initializers, function(index, fun) {
 			fun();
@@ -103,6 +110,7 @@ window.chrome = function() {
 			$(".closeButton").bind('click', showContent);
 
 			initContentLinkHandlers();
+
 			loadFirstPage();
 			doFocusHack();
 		});
@@ -110,17 +118,23 @@ window.chrome = function() {
 
 	function loadFirstPage() {
 		chrome.showSpinner();
-	   
-		// restore browsing to last visited page
-		var historyDB = new Lawnchair({name:"historyDB"}, function() {
-			this.all(function(history){
-				if(history.length==0 || window.history.length > 1) {
-					app.navigateToPage(app.baseURL);
-				} else {
-					app.navigateToPage(history[history.length-1].value);
-				}
+
+		//open the url passed by the href param
+		var url = getUrlParam();
+		if(url) {
+			app.navigateToPage(url);
+		} else {
+			// restore browsing to last visited page
+			var historyDB = new Lawnchair({name:"historyDB"}, function() {
+				this.all(function(history){
+					if(history.length==0 || window.history.length > 1) {
+						app.navigateToPage(app.baseURL);
+					} else {
+						app.navigateToPage(history[history.length-1].value);
+					}
+				});
 			});
-		});
+		}
 
 	}
 
