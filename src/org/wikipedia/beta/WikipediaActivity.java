@@ -1,4 +1,4 @@
-package org.wikipedia;
+package org.wikipedia.beta;
 
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;

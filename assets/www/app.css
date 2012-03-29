@@ -328,17 +328,10 @@ button#search
 	top: 8px;
 	left: 8px;
 	background: url(image/button-light-wiki.png) no-repeat;
-	background: url(image/button-light-wiki.png) no-repeat,
-		-webkit-gradient(linear, 0% 0%, 0% 100%, from(#777), to(#444));
-	background: url(image/button-light-wiki.png) no-repeat,
-		-moz-linear-gradient(#777 0%, #444 100%);
-	background: url(image/button-light-wiki.png) no-repeat,
-		-ms-linear-gradient(#777 0%, #444 100%);
 	background-size: 40px;
-	height: 37px;
+	height: 40px;
 	width: 40px;
-	border: 1px solid #333;
-	border-radius: 5px 0px 0px 5px;	
+	border: none;
 }
 
 .titlebarIcon.active {

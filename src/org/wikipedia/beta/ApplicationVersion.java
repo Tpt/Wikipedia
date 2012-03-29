@@ -1,8 +1,9 @@
-package org.wikipedia;
+package org.wikipedia.beta;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.wikipedia.beta.R;
 
 import org.apache.cordova.api.LOG;
 import org.apache.cordova.api.Plugin;

@@ -1,9 +1,10 @@
-package org.wikipedia;
+package org.wikipedia.beta;
 
 import java.net.URLEncoder;
 import java.util.Locale;
 
 import org.json.JSONArray;
+import org.wikipedia.beta.R;
 
 import android.app.SearchManager;
 import android.content.ContentProvider;
@@ -17,7 +18,7 @@ import android.provider.BaseColumns;
 import android.util.Log;
 
 public class SearchSuggestionsProvider extends ContentProvider {
-	private static final String AUTHORITY = "org.wikipedia.searchsuggestions";
+	private static final String AUTHORITY = "org.wikipedia.beta.searchsuggestions";
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY);
 
 	@Override

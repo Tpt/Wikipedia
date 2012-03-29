@@ -1,7 +1,8 @@
-package org.wikipedia;
+package org.wikipedia.beta;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.wikipedia.beta.R;
 
 import android.util.Log;
 import android.webkit.WebSettings;

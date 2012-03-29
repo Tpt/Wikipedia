@@ -1,4 +1,4 @@
-package org.wikipedia;
+package org.wikipedia.beta;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -10,6 +10,7 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.wikipedia.beta.R;
 
 import android.util.Log;
 

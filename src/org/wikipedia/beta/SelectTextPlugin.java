@@ -1,6 +1,7 @@
-package org.wikipedia;
+package org.wikipedia.beta;
 
 import org.json.JSONArray;
+import org.wikipedia.beta.R;
 
 import android.util.Log;
 import android.view.KeyEvent;

@@ -1,4 +1,4 @@
-package org.wikipedia;
+package org.wikipedia.beta;
 
 import java.io.File;
 
@@ -9,6 +9,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import org.wikipedia.beta.R;
 
 public class WikipediaApp extends Application {
 
