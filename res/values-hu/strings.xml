@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="search_description">Szócikk neve</string>
 	<string name="app_name_beta">Wikipédia béta</string>
+	<string name="search_hint_wiki">Keresés a Wikipédiában</string>
 	<string name="app_name">Wikipédia</string>
 </resources>

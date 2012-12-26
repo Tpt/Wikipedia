@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="search_description">ಲೇಖನದ ಹೆಸರು</string>
+	<string name="app_name_beta">ವಿಕಿಪೀಡಿಯ ಬೀಟಾ</string>
+	<string name="search_hint_wiki">ವಿಕಿಪೀಡಿಯ ಹುಡುಕು</string>
+	<string name="app_name">ವಿಕಿಪೀಡಿಯ</string>
+</resources>

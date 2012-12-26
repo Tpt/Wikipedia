@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="search_description">लेख का नाम</string>
 	<string name="app_name_beta">विकिपीडिया बीटा</string>
+	<string name="search_hint_wiki">विकिपीडिया खोजो</string>
 	<string name="app_name">विकिपीडिया</string>
 </resources>

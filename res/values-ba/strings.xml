@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="search_description">Мәҡәлә исеме</string>
 	<string name="app_name_beta">Википедия Бета</string>
+	<string name="search_hint_wiki">Википедияла эҙләргә</string>
 	<string name="app_name">Википедия</string>
 </resources>

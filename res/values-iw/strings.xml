@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="search_description">שם הערך</string>
 	<string name="app_name_beta">ויקיפדיה בטא</string>
+	<string name="search_hint_wiki">חיפוש בוויקיפדיה</string>
 	<string name="app_name">ויקיפדיה</string>
 </resources>

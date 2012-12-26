@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="search_description">Հոդվածի անուն</string>
 	<string name="app_name_beta">Վիքիպեդիա Բետա</string>
+	<string name="search_hint_wiki">Որոնել Վիքիպեդիայում</string>
 	<string name="app_name">Վիքիպեդիա</string>
 </resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="search_description">Məqalə adı</string>
+	<string name="app_name_beta">Vikipediya Beta</string>
+	<string name="search_hint_wiki">Vikipediya-da Axtar</string>
+	<string name="app_name">Vikipediya</string>
+</resources>

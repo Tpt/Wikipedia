@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="search_description">Artikelnamn</string>
 	<string name="app_name_beta">Wikipedia Beta</string>
+	<string name="search_hint_wiki">Sök Wikipedia</string>
 	<string name="app_name">Wikipedia</string>
 </resources>

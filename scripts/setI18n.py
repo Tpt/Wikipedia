@@ -36,8 +36,9 @@ class Messages:
 		for jsName in paramNames:
 			msg = self.getMessage( jsName )
 			if msg is not None:
+				msg = msg.replace( u"'", u"’" ) #Android SDK doesn't allow "'" in strings
 				content += u"\t<string name=\"" + paramNames[jsName] + u"\">" + msg + u"</string>\n"
-		if content == u"": #don't create empty file !
+		if content == u"": #don't create empty file!
 			return
 
 		content = u"<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n" + content + u"</resources>"

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="search_description">Název článku</string>
 	<string name="app_name_beta">Wikipedie Beta</string>
+	<string name="search_hint_wiki">Hledání ve Wikipedii</string>
 	<string name="app_name">Wikipedie</string>
 </resources>

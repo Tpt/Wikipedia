@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="search_description">Nom de l’article</string>
 	<string name="app_name_beta">Viquipèdia Beta</string>
+	<string name="search_hint_wiki">Cerca a la Viquipèdia</string>
 	<string name="app_name">Viquipèdia</string>
 </resources>

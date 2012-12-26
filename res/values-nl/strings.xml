@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="search_description">Paginanaam</string>
 	<string name="app_name_beta">Wikipedia Beta</string>
+	<string name="search_hint_wiki">In Wikipedia zoeken</string>
 	<string name="app_name">Wikipedia</string>
 </resources>

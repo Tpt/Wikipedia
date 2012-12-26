@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="search_description">Num da l’artitgel</string>
+	<string name="app_name_beta">Vichipedia Beta</string>
+	<string name="search_hint_wiki">Tschertgar en la Vichipedia</string>
+	<string name="app_name">Vichipedia</string>
+</resources>

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="search_description">ലേഖനത്തിന്റെ പേര്</string>
 	<string name="app_name_beta">വിക്കിപീഡിയ ബീറ്റ</string>
+	<string name="search_hint_wiki">വിക്കിപീഡിയയിൽ തിരയുക</string>
 	<string name="app_name">വിക്കിപീഡിയ</string>
 </resources>

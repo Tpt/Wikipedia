@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="search_description">ឈ្មោះអត្ថបទ</string>
 	<string name="app_name_beta">វិគីភីឌាបេតា</string>
+	<string name="search_hint_wiki">ស្វែងរកក្នុងវិគីភីឌា</string>
 	<string name="app_name">វិគីភីឌា</string>
 </resources>
